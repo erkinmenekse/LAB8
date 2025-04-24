@@ -1,0 +1,30 @@
+from book import Book
+from article import Article
+from podcast import Podcast
+from file_operations import save_to_file, load_from_file
+
+archive_items = [
+    Book("B001", "Deep Learning", 2018, "Ian Goodfellow", 775),
+    Book("B002", "Python Basics", 2021, "John Smith", 300),
+    Article("A101", "Quantum Computing", 2022, "Nature", "10.1234/qc567"),
+    Article("A102", "AI Ethics", 2017, "AI Journal", "10.5678/ethics42"),
+    Podcast("P301", "TechTalk AI", 2023, "Jane Doe", 45),
+    Podcast("P302", "History Unfolded", 2015, "Mark Twain", 60)
+]
+
+save_to_file(archive_items, "archive_data.txt")
+loaded_items = load_from_file("archive_data.txt")
+
+print("All Items:")
+for item in loaded_items:
+    print(item)
+
+print("\nRecent Items:")
+for item in loaded_items:
+    if item.is_recent(5):
+        print(item)
+
+print("\nArticles with DOI starting '10.1234':")
+for item in loaded_items:
+    if isinstance(item, Article) and item.doi.startswith("10.1234"):
+        print(item)
