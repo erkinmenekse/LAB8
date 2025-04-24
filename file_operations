@@ -1,0 +1,29 @@
+from book import Book
+from article import Article
+from podcast import Podcast
+
+def save_to_file(items, filename):
+    with open(filename, 'w') as f:
+        for item in items:
+            if isinstance(item, Book):
+                line = f"Book,{item.uid},{item.title},{item.year},{item.author},{item.pages}\n"
+            elif isinstance(item, Article):
+                line = f"Article,{item.uid},{item.title},{item.year},{item.journal},{item.doi}\n"
+            elif isinstance(item, Podcast):
+                line = f"Podcast,{item.uid},{item.title},{item.year},{item.host},{item.duration}\n"
+            f.write(line)
+
+def load_from_file(filename):
+    items = []
+    with open(filename, 'r') as f:
+        for line in f:
+            parts = line.strip().split(',')
+            type_ = parts[0]
+            if type_ == "Book":
+                item = Book(*parts[1:])
+            elif type_ == "Article":
+                item = Article(*parts[1:])
+            elif type_ == "Podcast":
+                item = Podcast(*parts[1:])
+            items.append(item)
+    return items
